@@ -5,9 +5,9 @@ TypeScript type definitions for Roo Code.
 ## Installation
 
 ```bash
-npm install @roo-code/types
-pnpm install @roo-code/types
-yarn add @roo-code/types
+npm add -D @roo-code/types
+pnpm add -D @roo-code/types
+yarn add -D @roo-code/types
 ```
 
 ## Usage
@@ -15,24 +15,10 @@ yarn add @roo-code/types
 Import the types in your TypeScript files:
 
 ```typescript
-import {
-	RooCodeAPI,
-	RooCodeSettings,
-	GlobalSettings,
-	ProviderSettings,
-	ClineMessage,
-	TokenUsage,
-	RooCodeEventName,
-	RooCodeEvents,
-} from "@roo-code/types"
+import { RooCodeAPI } from "@roo-code/types"
 
-// Use the types in your code
 const settings: RooCodeSettings = {
-	// Your settings here
-}
-
-// Example: Type an event handler
-function handleMessage(event: RooCodeEvents["message"][0]) {
-	console.log(event.message.text)
+	autoApprovalEnabled: true,
+	...
 }
 ```
