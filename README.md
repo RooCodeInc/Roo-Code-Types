@@ -36,19 +36,3 @@ function handleMessage(event: RooCodeEvents["message"][0]) {
 	console.log(event.message.text)
 }
 ```
-
-## Available Types
-
-- `GlobalSettings`: Global configuration settings for Roo Code
-- `ProviderSettings`: Provider-specific settings
-- `ProviderSettingsEntry`: Entry for a provider configuration
-- `ClineMessage`: Message structure for Cline interactions
-- `TokenUsage`: Structure for token usage information
-- `RooCodeEvents`: Event types for the Roo Code API
-- `RooCodeEventName`: Enum of event names
-- `RooCodeSettings`: Combined global and provider settings
-- `RooCodeAPI`: Interface for the Roo Code API
-
-## License
-
-MIT
