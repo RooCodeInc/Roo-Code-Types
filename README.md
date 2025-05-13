@@ -5,13 +5,9 @@ TypeScript type definitions for Roo Code.
 ## Installation
 
 ```bash
-npm install roo-code-types
-```
-
-or
-
-```bash
-yarn add roo-code-types
+npm install @roo-code/types
+pnpm install @roo-code/types
+yarn add @roo-code/types
 ```
 
 ## Usage
@@ -28,7 +24,7 @@ import {
 	TokenUsage,
 	RooCodeEventName,
 	RooCodeEvents,
-} from "roo-code-types"
+} from "@roo-code/types"
 
 // Use the types in your code
 const settings: RooCodeSettings = {
