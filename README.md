@@ -15,7 +15,7 @@ yarn add -D @roo-code/types
 Import the types in your TypeScript files:
 
 ```typescript
-import { RooCodeAPI } from "@roo-code/types"
+import type { RooCodeAPI } from "@roo-code/types"
 
 const settings: RooCodeSettings = {
 	autoApprovalEnabled: true,
