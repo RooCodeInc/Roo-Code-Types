@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RooVetGit/Roo-Code.git"
+    "url": "git+https://github.com/RooCodeInc/Roo-Code-Types.git"
   },
   "bugs": {
-    "url": "https://github.com/RooVetGit/Roo-Code/issues"
+    "url": "https://github.com/RooCodeInc/Roo-Code-Types/issues"
   },
-  "homepage": "https://github.com/RooVetGit/Roo-Code/tree/main/roo-code-types",
+  "homepage": "https://github.com/RooCodeInc/Roo-Code-Types/tree/main/roo-code-types",
   "keywords": [
     "roo",
     "roo-code",
