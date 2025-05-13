@@ -27,7 +27,6 @@
   "scripts": {
     "build": "echo \"No build required - this package only contains type definitions\"",
     "prepublishOnly": "npm run build",
-    "generate-types": "cd .. && npm run generate-types",
     "check-types": "tsc --noEmit",
     "release:test": "semantic-release --dry-run",
     "release": "semantic-release"
