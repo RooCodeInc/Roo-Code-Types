@@ -24,6 +24,7 @@
   "types": "index.d.ts",
   "files": [
     "index.d.ts",
+    "index.js",
     "README.md"
   ],
   "packageManager": "pnpm@10.8.1",
