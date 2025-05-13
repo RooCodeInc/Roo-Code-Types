@@ -1,6 +1,6 @@
 {
   "name": "@roo-code/types",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "TypeScript type definitions for Roo Code",
   "publishConfig": {
     "access": "public"
@@ -20,16 +20,15 @@
     "roo-code",
     "ai"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist/index.d.ts",
-    "dist/index.js",
-    "README.md"
+    "dist"
   ],
   "packageManager": "pnpm@10.8.1",
   "scripts": {
-    "build": "tsup src/index.d.ts --format cjs --clean --out-dir dist",
+    "build": "tsup",
     "prepublishOnly": "pnpm run build",
     "check-types": "tsc --noEmit",
     "release:test": "dotenvx run -f .env.local -- semantic-release --dry-run",
