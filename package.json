@@ -31,10 +31,11 @@
     "build": "echo \"No build required - this package only contains type definitions\"",
     "prepublishOnly": "npm run build",
     "check-types": "tsc --noEmit",
-    "release:test": "semantic-release --dry-run",
-    "release": "semantic-release"
+    "release:test": "dotenvx run -f .env.local -- semantic-release --dry-run",
+    "release": "dotenvx run -f .env.local -- semantic-release --no-ci"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.44.0",
     "semantic-release": "^24.2.3"
   }
 }
