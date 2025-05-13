@@ -1,6 +1,6 @@
 {
-  "name": "roo-code-types",
-  "version": "0.0.1",
+  "name": "@roo-code/types",
+  "version": "1.0.0",
   "description": "TypeScript type definitions for Roo Code",
   "author": "Roo Code Team",
   "license": "MIT",
