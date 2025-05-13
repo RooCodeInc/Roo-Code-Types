@@ -33,6 +33,9 @@
     "release:test": "dotenvx run -f .env.local -- semantic-release --dry-run",
     "release": "dotenvx run -f .env.local -- semantic-release --no-ci"
   },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.44.0",
     "@types/node": "^22.15.17",

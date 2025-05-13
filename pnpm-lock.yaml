@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
     devDependencies:
       '@dotenvx/dotenvx':
         specifier: ^1.44.0
@@ -1735,6 +1739,9 @@ packages:
     resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
     engines: {node: '>=18'}
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
 snapshots:
 
   '@babel/code-frame@7.27.1':
@@ -3282,3 +3289,5 @@ snapshots:
       yargs-parser: 21.1.1
 
   yoctocolors@2.1.1: {}
+
+  zod@3.24.4: {}
