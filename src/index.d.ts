@@ -999,6 +999,43 @@ type TaskEvent = {
     ];
 };
 
+type RooCodeTelemetryEvent = {
+    type: "Task Created" | "Task Reopened" | "Task Completed" | "Conversation Message" | "Mode Switched" | "Tool Used" | "Checkpoint Created" | "Checkpoint Restored" | "Checkpoint Diffed" | "Code Action Used" | "Prompt Enhanced" | "Title Button Clicked" | "Authentication Initiated" | "Schema Validation Error" | "Diff Application Error" | "Shell Integration Error" | "Consecutive Mistake Error";
+    properties: {
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        language: string;
+        mode: string;
+        taskId?: string | undefined;
+        apiProvider?: ("anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm") | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+    };
+} | {
+    type: "LLM Completion";
+    properties: {
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        language: string;
+        mode: string;
+        taskId?: string | undefined;
+        apiProvider?: ("anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm") | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+        inputTokens: number;
+        outputTokens: number;
+        cacheReadTokens?: number | undefined;
+        cacheWriteTokens?: number | undefined;
+        cost?: number | undefined;
+    };
+};
+
 /**
  * ProviderName
  */
@@ -1367,4 +1404,4 @@ interface RooCodeIpcServer extends EventEmitter<IpcServerEvents> {
     get isListening(): boolean;
 }
 
-export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type TaskCommand, type TaskEvent, type TokenUsage, providerNames, rooCodeTelemetryEventSchema };
+export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type RooCodeTelemetryEvent, type TaskCommand, type TaskEvent, type TokenUsage, providerNames, rooCodeTelemetryEventSchema };
