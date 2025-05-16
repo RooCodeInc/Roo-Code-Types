@@ -23,6 +23,7 @@ __export(interface_exports, {
   IpcMessageType: () => IpcMessageType,
   IpcOrigin: () => IpcOrigin,
   RooCodeEventName: () => RooCodeEventName,
+  TelemetryEventName: () => TelemetryEventName,
   providerNames: () => providerNames,
   rooCodeTelemetryEventSchema: () => rooCodeTelemetryEventSchema
 });
@@ -842,6 +843,27 @@ var ipcMessageSchema = import_zod.z.discriminatedUnion("type", [
     data: taskEventSchema
   })
 ]);
+var TelemetryEventName = /* @__PURE__ */ ((TelemetryEventName2) => {
+  TelemetryEventName2["TASK_CREATED"] = "Task Created";
+  TelemetryEventName2["TASK_RESTARTED"] = "Task Reopened";
+  TelemetryEventName2["TASK_COMPLETED"] = "Task Completed";
+  TelemetryEventName2["TASK_CONVERSATION_MESSAGE"] = "Conversation Message";
+  TelemetryEventName2["LLM_COMPLETION"] = "LLM Completion";
+  TelemetryEventName2["MODE_SWITCH"] = "Mode Switched";
+  TelemetryEventName2["TOOL_USED"] = "Tool Used";
+  TelemetryEventName2["CHECKPOINT_CREATED"] = "Checkpoint Created";
+  TelemetryEventName2["CHECKPOINT_RESTORED"] = "Checkpoint Restored";
+  TelemetryEventName2["CHECKPOINT_DIFFED"] = "Checkpoint Diffed";
+  TelemetryEventName2["CODE_ACTION_USED"] = "Code Action Used";
+  TelemetryEventName2["PROMPT_ENHANCED"] = "Prompt Enhanced";
+  TelemetryEventName2["TITLE_BUTTON_CLICKED"] = "Title Button Clicked";
+  TelemetryEventName2["AUTHENTICATION_INITIATED"] = "Authentication Initiated";
+  TelemetryEventName2["SCHEMA_VALIDATION_ERROR"] = "Schema Validation Error";
+  TelemetryEventName2["DIFF_APPLICATION_ERROR"] = "Diff Application Error";
+  TelemetryEventName2["SHELL_INTEGRATION_ERROR"] = "Shell Integration Error";
+  TelemetryEventName2["CONSECUTIVE_MISTAKE_ERROR"] = "Consecutive Mistake Error";
+  return TelemetryEventName2;
+})(TelemetryEventName || {});
 var appPropertiesSchema = import_zod.z.object({
   appVersion: import_zod.z.string(),
   vscodeVersion: import_zod.z.string(),
@@ -908,6 +930,7 @@ var rooCodeTelemetryEventSchema = import_zod.z.discriminatedUnion("type", [
   IpcMessageType,
   IpcOrigin,
   RooCodeEventName,
+  TelemetryEventName,
   providerNames,
   rooCodeTelemetryEventSchema
 });

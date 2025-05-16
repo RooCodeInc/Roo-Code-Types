@@ -1404,4 +1404,4 @@ interface RooCodeIpcServer extends EventEmitter<IpcServerEvents> {
     get isListening(): boolean;
 }
 
-export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type RooCodeTelemetryEvent, type TaskCommand, type TaskEvent, type TokenUsage, providerNames, rooCodeTelemetryEventSchema };
+export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type RooCodeTelemetryEvent, type TaskCommand, type TaskEvent, TelemetryEventName, type TokenUsage, providerNames, rooCodeTelemetryEventSchema };
