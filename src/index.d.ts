@@ -69,6 +69,7 @@ type GlobalSettings = {
     diffEnabled?: boolean | undefined;
     fuzzyMatchThreshold?: number | undefined;
     experiments?: {
+        autoCondenseContext: boolean;
         powerSteering: boolean;
     } | undefined;
     language?: ("ca" | "de" | "en" | "es" | "fr" | "hi" | "it" | "ja" | "ko" | "nl" | "pl" | "pt-BR" | "ru" | "tr" | "vi" | "zh-CN" | "zh-TW") | undefined;
@@ -83,6 +84,7 @@ type GlobalSettings = {
         slug: string;
         name: string;
         roleDefinition: string;
+        whenToUse?: string | undefined;
         customInstructions?: string | undefined;
         groups: (("read" | "edit" | "browser" | "command" | "mcp" | "modes") | [
             "read" | "edit" | "browser" | "command" | "mcp" | "modes",
@@ -96,6 +98,7 @@ type GlobalSettings = {
     customModePrompts?: {
         [x: string]: {
             roleDefinition?: string | undefined;
+            whenToUse?: string | undefined;
             customInstructions?: string | undefined;
         } | undefined;
     } | undefined;
@@ -105,6 +108,8 @@ type GlobalSettings = {
     enhancementApiConfigId?: string | undefined;
     historyPreviewCollapsed?: boolean | undefined;
 };
+
+type ProviderName = "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm";
 
 type ProviderSettings = {
     apiProvider?: ("anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm") | undefined;
@@ -513,6 +518,7 @@ type IpcMessage = {
                 terminalZdotdir?: boolean | undefined;
                 terminalCompressProgressBar?: boolean | undefined;
                 experiments?: {
+                    autoCondenseContext: boolean;
                     powerSteering: boolean;
                 } | undefined;
                 language?: ("ca" | "de" | "en" | "es" | "fr" | "hi" | "it" | "ja" | "ko" | "nl" | "pl" | "pt-BR" | "ru" | "tr" | "vi" | "zh-CN" | "zh-TW") | undefined;
@@ -527,6 +533,7 @@ type IpcMessage = {
                     slug: string;
                     name: string;
                     roleDefinition: string;
+                    whenToUse?: string | undefined;
                     customInstructions?: string | undefined;
                     groups: (("read" | "edit" | "browser" | "command" | "mcp" | "modes") | [
                         "read" | "edit" | "browser" | "command" | "mcp" | "modes",
@@ -540,6 +547,7 @@ type IpcMessage = {
                 customModePrompts?: {
                     [x: string]: {
                         roleDefinition?: string | undefined;
+                        whenToUse?: string | undefined;
                         customInstructions?: string | undefined;
                     } | undefined;
                 } | undefined;
@@ -837,6 +845,7 @@ type TaskCommand = {
             terminalZdotdir?: boolean | undefined;
             terminalCompressProgressBar?: boolean | undefined;
             experiments?: {
+                autoCondenseContext: boolean;
                 powerSteering: boolean;
             } | undefined;
             language?: ("ca" | "de" | "en" | "es" | "fr" | "hi" | "it" | "ja" | "ko" | "nl" | "pl" | "pt-BR" | "ru" | "tr" | "vi" | "zh-CN" | "zh-TW") | undefined;
@@ -851,6 +860,7 @@ type TaskCommand = {
                 slug: string;
                 name: string;
                 roleDefinition: string;
+                whenToUse?: string | undefined;
                 customInstructions?: string | undefined;
                 groups: (("read" | "edit" | "browser" | "command" | "mcp" | "modes") | [
                     "read" | "edit" | "browser" | "command" | "mcp" | "modes",
@@ -864,6 +874,7 @@ type TaskCommand = {
             customModePrompts?: {
                 [x: string]: {
                     roleDefinition?: string | undefined;
+                    whenToUse?: string | undefined;
                     customInstructions?: string | undefined;
                 } | undefined;
             } | undefined;
@@ -987,6 +998,10 @@ type TaskEvent = {
     ];
 };
 
+/**
+ * ProviderName
+ */
+declare const providerNames: readonly ["anthropic", "glama", "openrouter", "bedrock", "vertex", "openai", "ollama", "vscode-lm", "lmstudio", "gemini", "openai-native", "mistral", "deepseek", "unbound", "requesty", "human-relay", "fake-ai", "xai", "groq", "chutes", "litellm"];
 /**
  * RooCodeEvent
  */
@@ -1161,4 +1176,4 @@ interface RooCodeIpcServer extends EventEmitter<IpcServerEvents> {
     get isListening(): boolean;
 }
 
-export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type TaskCommand, type TaskEvent, type TokenUsage };
+export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type TaskCommand, type TaskEvent, type TokenUsage, providerNames };

@@ -22,7 +22,8 @@ var interface_exports = {};
 __export(interface_exports, {
   IpcMessageType: () => IpcMessageType,
   IpcOrigin: () => IpcOrigin,
-  RooCodeEventName: () => RooCodeEventName
+  RooCodeEventName: () => RooCodeEventName,
+  providerNames: () => providerNames
 });
 module.exports = __toCommonJS(interface_exports);
 
@@ -154,6 +155,7 @@ var modeConfigSchema = import_zod.z.object({
   slug: import_zod.z.string().regex(/^[a-zA-Z0-9-]+$/, "Slug must contain only letters numbers and dashes"),
   name: import_zod.z.string().min(1, "Name is required"),
   roleDefinition: import_zod.z.string().min(1, "Role definition is required"),
+  whenToUse: import_zod.z.string().optional(),
   customInstructions: import_zod.z.string().optional(),
   groups: groupEntryArraySchema,
   source: import_zod.z.enum(["global", "project"]).optional()
@@ -177,6 +179,7 @@ var customModesSettingsSchema = import_zod.z.object({
 });
 var promptComponentSchema = import_zod.z.object({
   roleDefinition: import_zod.z.string().optional(),
+  whenToUse: import_zod.z.string().optional(),
   customInstructions: import_zod.z.string().optional()
 });
 var customModePromptsSchema = import_zod.z.record(import_zod.z.string(), promptComponentSchema.optional());
@@ -203,9 +206,10 @@ var commandExecutionStatusSchema = import_zod.z.discriminatedUnion("status", [
     status: import_zod.z.literal("fallback")
   })
 ]);
-var experimentIds = ["powerSteering"];
+var experimentIds = ["autoCondenseContext", "powerSteering"];
 var experimentIdsSchema = import_zod.z.enum(experimentIds);
 var experimentsSchema = import_zod.z.object({
+  autoCondenseContext: import_zod.z.boolean(),
   powerSteering: import_zod.z.boolean()
 });
 var providerSettingsEntrySchema = import_zod.z.object({
@@ -841,5 +845,6 @@ var ipcMessageSchema = import_zod.z.discriminatedUnion("type", [
 0 && (module.exports = {
   IpcMessageType,
   IpcOrigin,
-  RooCodeEventName
+  RooCodeEventName,
+  providerNames
 });
