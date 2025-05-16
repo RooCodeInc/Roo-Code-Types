@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { Socket } from 'node:net';
+import { z } from 'zod';
 
 type GlobalSettings = {
     currentApiConfigName?: string | undefined;
@@ -1033,11 +1034,201 @@ declare enum IpcOrigin {
     Client = "client",
     Server = "server"
 }
+/**
+ * TelemetryEventName
+ */
+declare enum TelemetryEventName {
+    TASK_CREATED = "Task Created",
+    TASK_RESTARTED = "Task Reopened",
+    TASK_COMPLETED = "Task Completed",
+    TASK_CONVERSATION_MESSAGE = "Conversation Message",
+    LLM_COMPLETION = "LLM Completion",
+    MODE_SWITCH = "Mode Switched",
+    TOOL_USED = "Tool Used",
+    CHECKPOINT_CREATED = "Checkpoint Created",
+    CHECKPOINT_RESTORED = "Checkpoint Restored",
+    CHECKPOINT_DIFFED = "Checkpoint Diffed",
+    CODE_ACTION_USED = "Code Action Used",
+    PROMPT_ENHANCED = "Prompt Enhanced",
+    TITLE_BUTTON_CLICKED = "Title Button Clicked",
+    AUTHENTICATION_INITIATED = "Authentication Initiated",
+    SCHEMA_VALIDATION_ERROR = "Schema Validation Error",
+    DIFF_APPLICATION_ERROR = "Diff Application Error",
+    SHELL_INTEGRATION_ERROR = "Shell Integration Error",
+    CONSECUTIVE_MISTAKE_ERROR = "Consecutive Mistake Error"
+}
+declare const rooCodeTelemetryEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
+    type: z.ZodEnum<[TelemetryEventName.TASK_CREATED, TelemetryEventName.TASK_RESTARTED, TelemetryEventName.TASK_COMPLETED, TelemetryEventName.TASK_CONVERSATION_MESSAGE, TelemetryEventName.MODE_SWITCH, TelemetryEventName.TOOL_USED, TelemetryEventName.CHECKPOINT_CREATED, TelemetryEventName.CHECKPOINT_RESTORED, TelemetryEventName.CHECKPOINT_DIFFED, TelemetryEventName.CODE_ACTION_USED, TelemetryEventName.PROMPT_ENHANCED, TelemetryEventName.TITLE_BUTTON_CLICKED, TelemetryEventName.AUTHENTICATION_INITIATED, TelemetryEventName.SCHEMA_VALIDATION_ERROR, TelemetryEventName.DIFF_APPLICATION_ERROR, TelemetryEventName.SHELL_INTEGRATION_ERROR, TelemetryEventName.CONSECUTIVE_MISTAKE_ERROR]>;
+    properties: z.ZodObject<{
+        taskId: z.ZodOptional<z.ZodString>;
+        apiProvider: z.ZodOptional<z.ZodEnum<["anthropic", "glama", "openrouter", "bedrock", "vertex", "openai", "ollama", "vscode-lm", "lmstudio", "gemini", "openai-native", "mistral", "deepseek", "unbound", "requesty", "human-relay", "fake-ai", "xai", "groq", "chutes", "litellm"]>>;
+        modelId: z.ZodOptional<z.ZodString>;
+        diffStrategy: z.ZodOptional<z.ZodString>;
+        isSubtask: z.ZodOptional<z.ZodBoolean>;
+        appVersion: z.ZodString;
+        vscodeVersion: z.ZodString;
+        platform: z.ZodString;
+        editorName: z.ZodString;
+        language: z.ZodString;
+        mode: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+    }, {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    type: TelemetryEventName.TASK_CREATED | TelemetryEventName.TASK_RESTARTED | TelemetryEventName.TASK_COMPLETED | TelemetryEventName.TASK_CONVERSATION_MESSAGE | TelemetryEventName.MODE_SWITCH | TelemetryEventName.TOOL_USED | TelemetryEventName.CHECKPOINT_CREATED | TelemetryEventName.CHECKPOINT_RESTORED | TelemetryEventName.CHECKPOINT_DIFFED | TelemetryEventName.CODE_ACTION_USED | TelemetryEventName.PROMPT_ENHANCED | TelemetryEventName.TITLE_BUTTON_CLICKED | TelemetryEventName.AUTHENTICATION_INITIATED | TelemetryEventName.SCHEMA_VALIDATION_ERROR | TelemetryEventName.DIFF_APPLICATION_ERROR | TelemetryEventName.SHELL_INTEGRATION_ERROR | TelemetryEventName.CONSECUTIVE_MISTAKE_ERROR;
+    properties: {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+    };
+}, {
+    type: TelemetryEventName.TASK_CREATED | TelemetryEventName.TASK_RESTARTED | TelemetryEventName.TASK_COMPLETED | TelemetryEventName.TASK_CONVERSATION_MESSAGE | TelemetryEventName.MODE_SWITCH | TelemetryEventName.TOOL_USED | TelemetryEventName.CHECKPOINT_CREATED | TelemetryEventName.CHECKPOINT_RESTORED | TelemetryEventName.CHECKPOINT_DIFFED | TelemetryEventName.CODE_ACTION_USED | TelemetryEventName.PROMPT_ENHANCED | TelemetryEventName.TITLE_BUTTON_CLICKED | TelemetryEventName.AUTHENTICATION_INITIATED | TelemetryEventName.SCHEMA_VALIDATION_ERROR | TelemetryEventName.DIFF_APPLICATION_ERROR | TelemetryEventName.SHELL_INTEGRATION_ERROR | TelemetryEventName.CONSECUTIVE_MISTAKE_ERROR;
+    properties: {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+    };
+}>, z.ZodObject<{
+    type: z.ZodLiteral<TelemetryEventName.LLM_COMPLETION>;
+    properties: z.ZodObject<{
+        inputTokens: z.ZodNumber;
+        outputTokens: z.ZodNumber;
+        cacheReadTokens: z.ZodOptional<z.ZodNumber>;
+        cacheWriteTokens: z.ZodOptional<z.ZodNumber>;
+        cost: z.ZodOptional<z.ZodNumber>;
+        taskId: z.ZodOptional<z.ZodString>;
+        apiProvider: z.ZodOptional<z.ZodEnum<["anthropic", "glama", "openrouter", "bedrock", "vertex", "openai", "ollama", "vscode-lm", "lmstudio", "gemini", "openai-native", "mistral", "deepseek", "unbound", "requesty", "human-relay", "fake-ai", "xai", "groq", "chutes", "litellm"]>>;
+        modelId: z.ZodOptional<z.ZodString>;
+        diffStrategy: z.ZodOptional<z.ZodString>;
+        isSubtask: z.ZodOptional<z.ZodBoolean>;
+        appVersion: z.ZodString;
+        vscodeVersion: z.ZodString;
+        platform: z.ZodString;
+        editorName: z.ZodString;
+        language: z.ZodString;
+        mode: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        inputTokens: number;
+        outputTokens: number;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+        cacheReadTokens?: number | undefined;
+        cacheWriteTokens?: number | undefined;
+        cost?: number | undefined;
+    }, {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        inputTokens: number;
+        outputTokens: number;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+        cacheReadTokens?: number | undefined;
+        cacheWriteTokens?: number | undefined;
+        cost?: number | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    type: TelemetryEventName.LLM_COMPLETION;
+    properties: {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        inputTokens: number;
+        outputTokens: number;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+        cacheReadTokens?: number | undefined;
+        cacheWriteTokens?: number | undefined;
+        cost?: number | undefined;
+    };
+}, {
+    type: TelemetryEventName.LLM_COMPLETION;
+    properties: {
+        language: string;
+        mode: string;
+        appVersion: string;
+        vscodeVersion: string;
+        platform: string;
+        editorName: string;
+        inputTokens: number;
+        outputTokens: number;
+        apiProvider?: "anthropic" | "glama" | "openrouter" | "bedrock" | "vertex" | "openai" | "ollama" | "vscode-lm" | "lmstudio" | "gemini" | "openai-native" | "mistral" | "deepseek" | "unbound" | "requesty" | "human-relay" | "fake-ai" | "xai" | "groq" | "chutes" | "litellm" | undefined;
+        taskId?: string | undefined;
+        modelId?: string | undefined;
+        diffStrategy?: string | undefined;
+        isSubtask?: boolean | undefined;
+        cacheReadTokens?: number | undefined;
+        cacheWriteTokens?: number | undefined;
+        cost?: number | undefined;
+    };
+}>]>;
 
+/**
+ * RooCodeSettings
+ */
+type RooCodeSettings = GlobalSettings & ProviderSettings;
 /**
  * RooCodeAPI
  */
-type RooCodeSettings = GlobalSettings & ProviderSettings;
 interface RooCodeAPI extends EventEmitter<RooCodeEvents> {
     /**
      * Starts a new task with an optional initial message and images.
@@ -1176,4 +1367,4 @@ interface RooCodeIpcServer extends EventEmitter<IpcServerEvents> {
     get isListening(): boolean;
 }
 
-export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type TaskCommand, type TaskEvent, type TokenUsage, providerNames };
+export { type ClineMessage, type GlobalSettings, type IpcMessage, IpcMessageType, IpcOrigin, type IpcServerEvents, type ProviderName, type ProviderSettings, type ProviderSettingsEntry, type RooCodeAPI, RooCodeEventName, type RooCodeEvents, type RooCodeIpcServer, type RooCodeSettings, type TaskCommand, type TaskEvent, type TokenUsage, providerNames, rooCodeTelemetryEventSchema };

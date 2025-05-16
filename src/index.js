@@ -23,7 +23,8 @@ __export(interface_exports, {
   IpcMessageType: () => IpcMessageType,
   IpcOrigin: () => IpcOrigin,
   RooCodeEventName: () => RooCodeEventName,
-  providerNames: () => providerNames
+  providerNames: () => providerNames,
+  rooCodeTelemetryEventSchema: () => rooCodeTelemetryEventSchema
 });
 module.exports = __toCommonJS(interface_exports);
 
@@ -841,10 +842,72 @@ var ipcMessageSchema = import_zod.z.discriminatedUnion("type", [
     data: taskEventSchema
   })
 ]);
+var appPropertiesSchema = import_zod.z.object({
+  appVersion: import_zod.z.string(),
+  vscodeVersion: import_zod.z.string(),
+  platform: import_zod.z.string(),
+  editorName: import_zod.z.string(),
+  language: import_zod.z.string(),
+  mode: import_zod.z.string()
+});
+var taskPropertiesSchema = import_zod.z.object({
+  taskId: import_zod.z.string().optional(),
+  apiProvider: import_zod.z.enum(providerNames).optional(),
+  modelId: import_zod.z.string().optional(),
+  diffStrategy: import_zod.z.string().optional(),
+  isSubtask: import_zod.z.boolean().optional()
+});
+var telemetryPropertiesSchema = import_zod.z.object({
+  ...appPropertiesSchema.shape,
+  ...taskPropertiesSchema.shape
+});
+var completionPropertiesSchema = import_zod.z.object({
+  inputTokens: import_zod.z.number(),
+  outputTokens: import_zod.z.number(),
+  cacheReadTokens: import_zod.z.number().optional(),
+  cacheWriteTokens: import_zod.z.number().optional(),
+  cost: import_zod.z.number().optional()
+});
+var rooCodeTelemetryEventSchema = import_zod.z.discriminatedUnion("type", [
+  import_zod.z.object({
+    type: import_zod.z.enum([
+      "Task Created" /* TASK_CREATED */,
+      "Task Reopened" /* TASK_RESTARTED */,
+      "Task Completed" /* TASK_COMPLETED */,
+      "Conversation Message" /* TASK_CONVERSATION_MESSAGE */,
+      "Mode Switched" /* MODE_SWITCH */,
+      "Tool Used" /* TOOL_USED */,
+      "Checkpoint Created" /* CHECKPOINT_CREATED */,
+      "Checkpoint Restored" /* CHECKPOINT_RESTORED */,
+      "Checkpoint Diffed" /* CHECKPOINT_DIFFED */,
+      "Code Action Used" /* CODE_ACTION_USED */,
+      "Prompt Enhanced" /* PROMPT_ENHANCED */,
+      "Title Button Clicked" /* TITLE_BUTTON_CLICKED */,
+      "Authentication Initiated" /* AUTHENTICATION_INITIATED */,
+      "Schema Validation Error" /* SCHEMA_VALIDATION_ERROR */,
+      "Diff Application Error" /* DIFF_APPLICATION_ERROR */,
+      "Shell Integration Error" /* SHELL_INTEGRATION_ERROR */,
+      "Consecutive Mistake Error" /* CONSECUTIVE_MISTAKE_ERROR */
+    ]),
+    properties: import_zod.z.object({
+      ...appPropertiesSchema.shape,
+      ...taskPropertiesSchema.shape
+    })
+  }),
+  import_zod.z.object({
+    type: import_zod.z.literal("LLM Completion" /* LLM_COMPLETION */),
+    properties: import_zod.z.object({
+      ...appPropertiesSchema.shape,
+      ...taskPropertiesSchema.shape,
+      ...completionPropertiesSchema.shape
+    })
+  })
+]);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   IpcMessageType,
   IpcOrigin,
   RooCodeEventName,
-  providerNames
+  providerNames,
+  rooCodeTelemetryEventSchema
 });
