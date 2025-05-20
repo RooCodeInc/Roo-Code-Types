@@ -4,8 +4,8 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+  for (var name2 in all)
+    __defProp(target, name2, { get: all[name2], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -22,15 +22,26 @@ var interface_exports = {};
 __export(interface_exports, {
   IpcMessageType: () => IpcMessageType,
   IpcOrigin: () => IpcOrigin,
+  Package: () => Package,
   RooCodeEventName: () => RooCodeEventName,
-  TelemetryEventName: () => TelemetryEventName,
-  providerNames: () => providerNames,
-  rooCodeTelemetryEventSchema: () => rooCodeTelemetryEventSchema
+  providerNames: () => providerNames
 });
 module.exports = __toCommonJS(interface_exports);
 
 // src/schemas/index.ts
 var import_zod = require("zod");
+
+// package.json
+var name = "roo-cline";
+var publisher = "RooVeterinaryInc";
+var version = "3.17.2";
+
+// src/schemas/index.ts
+var Package = {
+  publisher,
+  name,
+  version
+};
 var providerNames = [
   "anthropic",
   "glama",
@@ -488,6 +499,7 @@ var globalSettingsSchema = import_zod.z.object({
   alwaysAllowSubtasks: import_zod.z.boolean().optional(),
   alwaysAllowExecute: import_zod.z.boolean().optional(),
   allowedCommands: import_zod.z.array(import_zod.z.string()).optional(),
+  allowedMaxRequests: import_zod.z.number().optional(),
   browserToolEnabled: import_zod.z.boolean().optional(),
   browserViewportSize: import_zod.z.string().optional(),
   screenshotQuality: import_zod.z.number().optional(),
@@ -550,6 +562,7 @@ var globalSettingsRecord = {
   alwaysAllowSubtasks: void 0,
   alwaysAllowExecute: void 0,
   allowedCommands: void 0,
+  allowedMaxRequests: void 0,
   browserToolEnabled: void 0,
   browserViewportSize: void 0,
   screenshotQuality: void 0,
@@ -627,7 +640,8 @@ var clineAsks = [
   "resume_completed_task",
   "mistake_limit_reached",
   "browser_action_launch",
-  "use_mcp_server"
+  "use_mcp_server",
+  "auto_approval_max_req_reached"
 ];
 var clineAskSchema = import_zod.z.enum(clineAsks);
 var clineSays = [
@@ -651,12 +665,19 @@ var clineSays = [
   "subtask_result",
   "checkpoint_saved",
   "rooignore_error",
-  "diff_error"
+  "diff_error",
+  "condense_context"
 ];
 var clineSaySchema = import_zod.z.enum(clineSays);
 var toolProgressStatusSchema = import_zod.z.object({
   icon: import_zod.z.string().optional(),
   text: import_zod.z.string().optional()
+});
+var contextCondenseSchema = import_zod.z.object({
+  cost: import_zod.z.number(),
+  prevContextTokens: import_zod.z.number(),
+  newContextTokens: import_zod.z.number(),
+  summary: import_zod.z.string()
 });
 var clineMessageSchema = import_zod.z.object({
   ts: import_zod.z.number(),
@@ -669,7 +690,8 @@ var clineMessageSchema = import_zod.z.object({
   reasoning: import_zod.z.string().optional(),
   conversationHistoryIndex: import_zod.z.number().optional(),
   checkpoint: import_zod.z.record(import_zod.z.string(), import_zod.z.unknown()).optional(),
-  progressStatus: toolProgressStatusSchema.optional()
+  progressStatus: toolProgressStatusSchema.optional(),
+  contextCondense: contextCondenseSchema.optional()
 });
 var tokenUsageSchema = import_zod.z.object({
   totalTokensIn: import_zod.z.number(),
@@ -843,94 +865,11 @@ var ipcMessageSchema = import_zod.z.discriminatedUnion("type", [
     data: taskEventSchema
   })
 ]);
-var TelemetryEventName = /* @__PURE__ */ ((TelemetryEventName2) => {
-  TelemetryEventName2["TASK_CREATED"] = "Task Created";
-  TelemetryEventName2["TASK_RESTARTED"] = "Task Reopened";
-  TelemetryEventName2["TASK_COMPLETED"] = "Task Completed";
-  TelemetryEventName2["TASK_CONVERSATION_MESSAGE"] = "Conversation Message";
-  TelemetryEventName2["LLM_COMPLETION"] = "LLM Completion";
-  TelemetryEventName2["MODE_SWITCH"] = "Mode Switched";
-  TelemetryEventName2["TOOL_USED"] = "Tool Used";
-  TelemetryEventName2["CHECKPOINT_CREATED"] = "Checkpoint Created";
-  TelemetryEventName2["CHECKPOINT_RESTORED"] = "Checkpoint Restored";
-  TelemetryEventName2["CHECKPOINT_DIFFED"] = "Checkpoint Diffed";
-  TelemetryEventName2["CODE_ACTION_USED"] = "Code Action Used";
-  TelemetryEventName2["PROMPT_ENHANCED"] = "Prompt Enhanced";
-  TelemetryEventName2["TITLE_BUTTON_CLICKED"] = "Title Button Clicked";
-  TelemetryEventName2["AUTHENTICATION_INITIATED"] = "Authentication Initiated";
-  TelemetryEventName2["SCHEMA_VALIDATION_ERROR"] = "Schema Validation Error";
-  TelemetryEventName2["DIFF_APPLICATION_ERROR"] = "Diff Application Error";
-  TelemetryEventName2["SHELL_INTEGRATION_ERROR"] = "Shell Integration Error";
-  TelemetryEventName2["CONSECUTIVE_MISTAKE_ERROR"] = "Consecutive Mistake Error";
-  return TelemetryEventName2;
-})(TelemetryEventName || {});
-var appPropertiesSchema = import_zod.z.object({
-  appVersion: import_zod.z.string(),
-  vscodeVersion: import_zod.z.string(),
-  platform: import_zod.z.string(),
-  editorName: import_zod.z.string(),
-  language: import_zod.z.string(),
-  mode: import_zod.z.string()
-});
-var taskPropertiesSchema = import_zod.z.object({
-  taskId: import_zod.z.string().optional(),
-  apiProvider: import_zod.z.enum(providerNames).optional(),
-  modelId: import_zod.z.string().optional(),
-  diffStrategy: import_zod.z.string().optional(),
-  isSubtask: import_zod.z.boolean().optional()
-});
-var telemetryPropertiesSchema = import_zod.z.object({
-  ...appPropertiesSchema.shape,
-  ...taskPropertiesSchema.shape
-});
-var completionPropertiesSchema = import_zod.z.object({
-  inputTokens: import_zod.z.number(),
-  outputTokens: import_zod.z.number(),
-  cacheReadTokens: import_zod.z.number().optional(),
-  cacheWriteTokens: import_zod.z.number().optional(),
-  cost: import_zod.z.number().optional()
-});
-var rooCodeTelemetryEventSchema = import_zod.z.discriminatedUnion("type", [
-  import_zod.z.object({
-    type: import_zod.z.enum([
-      "Task Created" /* TASK_CREATED */,
-      "Task Reopened" /* TASK_RESTARTED */,
-      "Task Completed" /* TASK_COMPLETED */,
-      "Conversation Message" /* TASK_CONVERSATION_MESSAGE */,
-      "Mode Switched" /* MODE_SWITCH */,
-      "Tool Used" /* TOOL_USED */,
-      "Checkpoint Created" /* CHECKPOINT_CREATED */,
-      "Checkpoint Restored" /* CHECKPOINT_RESTORED */,
-      "Checkpoint Diffed" /* CHECKPOINT_DIFFED */,
-      "Code Action Used" /* CODE_ACTION_USED */,
-      "Prompt Enhanced" /* PROMPT_ENHANCED */,
-      "Title Button Clicked" /* TITLE_BUTTON_CLICKED */,
-      "Authentication Initiated" /* AUTHENTICATION_INITIATED */,
-      "Schema Validation Error" /* SCHEMA_VALIDATION_ERROR */,
-      "Diff Application Error" /* DIFF_APPLICATION_ERROR */,
-      "Shell Integration Error" /* SHELL_INTEGRATION_ERROR */,
-      "Consecutive Mistake Error" /* CONSECUTIVE_MISTAKE_ERROR */
-    ]),
-    properties: import_zod.z.object({
-      ...appPropertiesSchema.shape,
-      ...taskPropertiesSchema.shape
-    })
-  }),
-  import_zod.z.object({
-    type: import_zod.z.literal("LLM Completion" /* LLM_COMPLETION */),
-    properties: import_zod.z.object({
-      ...appPropertiesSchema.shape,
-      ...taskPropertiesSchema.shape,
-      ...completionPropertiesSchema.shape
-    })
-  })
-]);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   IpcMessageType,
   IpcOrigin,
+  Package,
   RooCodeEventName,
-  TelemetryEventName,
-  providerNames,
-  rooCodeTelemetryEventSchema
+  providerNames
 });
