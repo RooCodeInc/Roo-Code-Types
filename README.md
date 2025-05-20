@@ -1,6 +1,6 @@
 # Roo Code Types
 
-TypeScript type definitions for Roo Code. Available on (NPM)[https://www.npmjs.com/package/@roo-code/types].
+TypeScript type definitions for Roo Code. Available on [NPM](https://www.npmjs.com/package/@roo-code/types).
 
 ## Installation
 
